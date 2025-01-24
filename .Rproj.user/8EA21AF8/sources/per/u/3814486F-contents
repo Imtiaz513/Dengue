@@ -1,0 +1,73 @@
+# Check if all variables exist in the dataset
+all_vars <- c(demographic_vars, psych_vars, "High_Burnout")
+missing_vars <- all_vars[!all_vars %in% colnames(data)]
+
+if (length(missing_vars) > 0) {
+  print(paste("These variables are missing from the dataset:", paste(missing_vars, collapse = ", ")))
+} else {
+  print("All variables are present.")
+}
+names(data)
+# Load required libraries
+library(gtsummary)
+library(dplyr)
+
+# Select the required variables
+selected_vars <- c(
+  "age", "gender", "work_hours", "qualification", 
+  "dept", "marital_status", "location", "work_location", 
+  "dengue_cases", "Stress", "Anxiety", "Depression", 
+  "EE_Level", "PA_Level", "DP_Level", "High_Burnout"
+)
+
+# Filter the dataset to include only the selected variables
+data_selected <- data %>% select(all_of(selected_vars))
+
+# Create the gtsummary table
+summary_table <- tbl_summary(
+  data_selected,
+  by = "High_Burnout", # Group by High_Burnout (Yes/No)
+  statistic = list(
+    all_continuous() ~ "{mean} ({sd})", # Mean and SD for continuous variables
+    all_categorical() ~ "{n} ({p}%)"    # Count and percentage for categorical variables
+  ),
+  missing_text = "Missing" # Label for missing values
+)
+
+# Add p-values for comparisons
+summary_table <- summary_table %>%
+  add_p() %>%               # Add p-values for statistical tests
+  add_overall() %>%         # Add overall summary
+  bold_labels()             # Bold variable labels
+
+# Print the gtsummary table
+summary_table
+# Load necessary libraries
+library(dplyr)
+library(broom)
+
+# Ensure High_Burnout is a factor
+data$High_Burnout <- as.factor(data$High_Burnout)
+
+# Fit a logistic regression model
+model <- glm(
+  High_Burnout ~ age + gender + work_hours + qualification + 
+    dept + marital_status + location + work_location + dengue_cases + 
+    Stress + Anxiety + Depression + EE_Level + PA_Level + DP_Level, 
+  data = data,
+  family = binomial
+)
+
+# Display model summary
+summary(model)
+
+# Create a tidy output of regression results
+tidy_model <- tidy(model, exponentiate = TRUE, conf.int = TRUE)
+print(tidy_model)
+
+# Calculate pseudo R-squared
+install.packages("pscl")
+library(pscl)
+pseudo_r2 <- pR2(model)
+print(pseudo_r2)
+table(data$High_Burnout)

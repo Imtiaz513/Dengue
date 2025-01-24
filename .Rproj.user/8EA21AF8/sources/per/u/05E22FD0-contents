@@ -1,0 +1,78 @@
+data$objectify_patients[is.na(data$objectify_patients)] <- 5
+# Demographic and psychological variables
+demographic_vars <- c("gender", "qualification", "dept", "marital_status", "location")
+psych_vars <- c("Stress_Level", "Anxiety_Level", "Depression_Level")
+
+# Function to calculate percentages and p-values
+analyze_burnout <- function(var) {
+  chisq_result <- chisq.test(table(data[[var]], data$High_Burnout))
+  summary_table <- prop.table(table(data[[var]], data$High_Burnout), margin = 1) * 100
+  data.frame(
+    Variable = var,
+    Level = rownames(summary_table),
+    No_Burnout_Percentage = round(summary_table[, "No"], 1),
+    High_Burnout_Percentage = round(summary_table[, "Yes"], 1),
+    p_value = round(chisq_result$p.value, 3)
+  )
+}
+
+# Apply the function to all variables
+results <- lapply(c(demographic_vars, psych_vars), analyze_burnout)
+
+# Combine results into a single table
+final_table <- do.call(rbind, results)
+
+# Display table
+library(knitr)
+kable(final_table, caption = "Burnout Percentage by Levels with p-values")
+
+
+# Required Libraries
+library(dplyr)
+library(knitr)
+
+# Define demographic and psychological variables
+demographic_vars <- c("gender", "qualification", "dept", "marital_status", "location")
+psych_vars <- c("Stress_Level", "Anxiety_Level", "Depression_Level")
+
+# Function to analyze burnout
+analyze_burnout <- function(var) {
+  # Ensure no missing values in the variable or High_Burnout
+  valid_data <- data[!is.na(data[[var]]) & !is.na(data$High_Burnout), ]
+  
+  # Create contingency table
+  contingency_table <- table(valid_data[[var]], valid_data$High_Burnout)
+  
+  # Check if chi-square approximation is valid
+  if (any(contingency_table < 5)) {
+    # Use Fisher's Exact Test for small cell counts
+    test_result <- fisher.test(contingency_table)
+  } else {
+    # Use Chi-Square Test otherwise
+    test_result <- chisq.test(contingency_table)
+  }
+  
+  # Calculate percentages
+  summary_table <- prop.table(contingency_table, margin = 1) * 100
+  
+  # Return results as a data frame
+  data.frame(
+    Variable = var,
+    Level = rownames(summary_table),
+    No_Burnout_Percentage = round(summary_table[, "No"], 1),
+    High_Burnout_Percentage = round(summary_table[, "Yes"], 1),
+    p_value = round(test_result$p.value, 3)
+  )
+}
+
+# Apply the function to all variables
+results <- lapply(c(demographic_vars, psych_vars), analyze_burnout)
+
+# Combine results
+final_table <- do.call(rbind, results)
+
+# Display table
+kable(final_table, caption = "Burnout Percentage by Levels with p-values")
+
+
+

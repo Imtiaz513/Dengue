@@ -1,0 +1,28 @@
+{
+    "id": "281ADB93",
+    "path": null,
+    "project_path": null,
+    "type": "object_explorer",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1734365429692.0,
+    "source_on_save": false,
+    "relative_order": 6,
+    "properties": {
+        "id": "2137c23dd76d41fa8345d05469bb3df2",
+        "name": "burnout_summary",
+        "title": "burnout_summary",
+        "language": "R",
+        "source_window_id": "",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 0,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1734365429692,
+    "read_only": false,
+    "read_only_alternatives": []
+}

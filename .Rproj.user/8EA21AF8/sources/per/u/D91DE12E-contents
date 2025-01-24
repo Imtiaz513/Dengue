@@ -1,0 +1,112 @@
+library(ggplot2)
+
+# Bar plot for Gender and High Burnout
+ggplot(data, aes(x = gender, fill = High_Burnout)) +
+  geom_bar(position = "fill") +  # Stacked bar as proportions
+  labs(
+    title = "High Burnout Distribution by Gender",
+    x = "Gender",
+    y = "Proportion",
+    fill = "Burnout"
+  ) +
+  scale_y_continuous(labels = scales::percent) +
+  theme_minimal()
+
+# Bar plot for Department and High Burnout
+ggplot(data, aes(x = dept, fill = High_Burnout)) +
+  geom_bar(position = "fill") +
+  labs(
+    title = "High Burnout Distribution by Department",
+    x = "Department",
+    y = "Proportion",
+    fill = "Burnout"
+  ) +
+  scale_y_continuous(labels = scales::percent) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  # Rotate x-axis labels
+  theme_minimal()
+# Box plot for Stress by High Burnout
+ggplot(data, aes(x = High_Burnout, y = Stress, fill = High_Burnout)) +
+  geom_boxplot() +
+  labs(
+    title = "Stress Levels by Burnout",
+    x = "High Burnout",
+    y = "Stress"
+  ) +
+  theme_minimal()
+
+# Box plot for Depression by High Burnout
+ggplot(data, aes(x = High_Burnout, y = Depression, fill = High_Burnout)) +
+  geom_boxplot() +
+  labs(
+    title = "Depression Levels by Burnout",
+    x = "High Burnout",
+    y = "Depression"
+  ) +
+  theme_minimal()
+# Stacked bar plot for Emotional Exhaustion levels
+ggplot(data, aes(x = EE_Level, fill = High_Burnout)) +
+  geom_bar(position = "fill") +
+  labs(
+    title = "High Burnout Proportion by Emotional Exhaustion Level",
+    x = "Emotional Exhaustion Level",
+    y = "Proportion",
+    fill = "Burnout"
+  ) +
+  scale_y_continuous(labels = scales::percent) +
+  theme_minimal()
+
+# Stacked bar plot for Depersonalization levels
+ggplot(data, aes(x = DP_Level, fill = High_Burnout)) +
+  geom_bar(position = "fill") +
+  labs(
+    title = "High Burnout Proportion by Depersonalization Level",
+    x = "Depersonalization Level",
+    y = "Proportion",
+    fill = "Burnout"
+  ) +
+  scale_y_continuous(labels = scales::percent) +
+  theme_minimal()
+# Histogram for Stress
+ggplot(data, aes(x = Stress, fill = High_Burnout)) +
+  geom_histogram(binwidth = 5, alpha = 0.7, position = "identity") +
+  labs(
+    title = "Distribution of Stress by Burnout",
+    x = "Stress",
+    y = "Count",
+    fill = "Burnout"
+  ) +
+  theme_minimal()
+
+# Histogram for Anxiety
+ggplot(data, aes(x = Anxiety, fill = High_Burnout)) +
+  geom_histogram(binwidth = 5, alpha = 0.7, position = "identity") +
+  labs(
+    title = "Distribution of Anxiety by Burnout",
+    x = "Anxiety",
+    y = "Count",
+    fill = "Burnout"
+  ) +
+  theme_minimal()
+# Scatter plot for Stress vs. Depression
+ggplot(data, aes(x = Stress, y = Depression, color = High_Burnout)) +
+  geom_point(alpha = 0.7) +
+  labs(
+    title = "Stress vs. Depression by Burnout",
+    x = "Stress",
+    y = "Depression",
+    color = "Burnout"
+  ) +
+  theme_minimal()
+
+# Scatter plot for Anxiety vs. Stress
+ggplot(data, aes(x = Anxiety, y = Stress, color = High_Burnout)) +
+  geom_point(alpha = 0.7) +
+  labs(
+    title = "Anxiety vs. Stress by Burnout",
+    x = "Anxiety",
+    y = "Stress",
+    color = "Burnout"
+  ) +
+  theme_minimal()
+
+
